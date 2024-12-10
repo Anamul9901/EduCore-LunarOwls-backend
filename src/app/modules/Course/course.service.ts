@@ -84,11 +84,15 @@ const getAllCourseByRole = async (user: any) => {
     },
   });
 
+  const moreData = result?.filter((item: any) => item.creatorId == userId);
+
   if (userData.role == UserRole.faculty) {
     result = result.filter((course) =>
       course.courseFaculty.some((faculty) => faculty.facultyId == userId)
     );
+    result.push(...moreData)
   }
+
   return result;
 };
 
