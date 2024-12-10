@@ -61,7 +61,9 @@ const getAllEnrolmentStudentByStudentId = async (user: any) => {
   const result = await prisma.courseEnrollment.findMany({
     where: {
       studentId: userData.id,
-    },
+    },include: {
+      course: true
+    }
   });
   return result;
 };
