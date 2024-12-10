@@ -33,11 +33,26 @@ const getAllEnrolmentStudent = async () => {
   return result;
 };
 
-
+const getAllEnrolmentStudentByCourseId = async (courseId: string) => {
+  await prisma.course.findUniqueOrThrow({
+    where: {
+      id: courseId,
+      isActive: true,
+      isDeleted: false,
+    },
+  });
+  const result = await prisma.courseEnrollment.findMany({
+    where: {
+      courseId,
+    },
+  });
+  return result;
+};
 
 
 
 export const EnrolmentStudentService = {
   createEnrolmentStudent,
   getAllEnrolmentStudent,
+  getAllEnrolmentStudentByCourseId,
 };
