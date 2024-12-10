@@ -89,6 +89,7 @@ model courseClass {
   name        String
   description String?
   startTime   String
+  location    String?
   possition   ClassPossition @default(incomming)
 
   courseId String
