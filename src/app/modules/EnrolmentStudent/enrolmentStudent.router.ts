@@ -13,6 +13,15 @@ router.post(
 
 router.get("/", EnrolmentStudentController.getAllEnrolmentStudent);
 
-router.get("/:courseId", EnrolmentStudentController.getAllEnrolmentStudentByCourseId);
+router.get(
+  "/:courseId",
+  EnrolmentStudentController.getAllEnrolmentStudentByCourseId
+);
+router.get(
+  "/my-enrolld/data", auth(UserRole.student),
+  EnrolmentStudentController.getAllEnrolmentStudentByStudentId
+);
+
+
 
 export const EnrolmentStudentRoutes = router;

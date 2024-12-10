@@ -5,6 +5,7 @@ import { CourseRoutes } from "../modules/Course/course.router";
 import { CourseFacultyRoutes } from "../modules/CourseFaculty/courseFaculty.router";
 import { CourseClassRoutes } from "../modules/CourseClass/courseClass.router";
 import { EnrolmentStudentRoutes } from "../modules/EnrolmentStudent/enrolmentStudent.router";
+import { ClassDataRouter } from "../modules/ClassData/classData.router";
 
 const router = express.Router();
 
@@ -26,17 +27,16 @@ const moduleRoutes = [
     route: CourseFacultyRoutes,
   },
   {
-    path: "/courses",
-    route: CourseRoutes,
-  },
-
-  {
     path: "/enrolment-student",
     route: EnrolmentStudentRoutes,
   },
   {
     path: "/class",
     route: CourseClassRoutes,
+  },
+  {
+    path: "/class-data",
+    route: ClassDataRouter,
   },
 ];
 

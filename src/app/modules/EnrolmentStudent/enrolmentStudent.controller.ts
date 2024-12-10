@@ -34,24 +34,39 @@ const getAllEnrolmentStudent = catchAsync(
   }
 );
 
-
 const getAllEnrolmentStudentByCourseId = catchAsync(
-    async (req: Request, res: Response) => {
-        const {courseId} = req.params;
-      const result = await EnrolmentStudentService.getAllEnrolmentStudentByCourseId(courseId);
-  
-      sendResponse(res, {
-        statusCode: StatusCodes.OK,
-        success: true,
-        message: "Enroled student fetch successfully!",
-        data: result,
-      });
-    }
-  );
+  async (req: Request, res: Response) => {
+    const { courseId } = req.params;
+    const result =
+      await EnrolmentStudentService.getAllEnrolmentStudentByCourseId(courseId);
 
+    sendResponse(res, {
+      statusCode: StatusCodes.OK,
+      success: true,
+      message: "Enroled student fetch successfully!",
+      data: result,
+    });
+  }
+);
+
+const getAllEnrolmentStudentByStudentId = catchAsync(
+  async (req: Request, res: Response) => {
+    const user = (req as any).user;
+    const result =
+      await EnrolmentStudentService.getAllEnrolmentStudentByStudentId(user);
+
+    sendResponse(res, {
+      statusCode: StatusCodes.OK,
+      success: true,
+      message: "Enroled fetch successfully!",
+      data: result,
+    });
+  }
+);
 
 export const EnrolmentStudentController = {
   createEnrolmentStudent,
   getAllEnrolmentStudent,
   getAllEnrolmentStudentByCourseId,
+  getAllEnrolmentStudentByStudentId
 };

@@ -1,4 +1,4 @@
-import { UserStatus } from "@prisma/client";
+import { UserRole, UserStatus } from "@prisma/client";
 import prisma from "../../../shared/prisma";
 
 const createEnrolmentStudent = async (user: any, payload: any) => {
@@ -49,10 +49,26 @@ const getAllEnrolmentStudentByCourseId = async (courseId: string) => {
   return result;
 };
 
-
+const getAllEnrolmentStudentByStudentId = async (user: any) => {
+  const userData = await prisma.user.findUniqueOrThrow({
+    where: {
+      email: user.email,
+      status: UserStatus.active,
+      role: UserRole.student,
+    },
+  });
+  console.log(userData)
+  const result = await prisma.courseEnrollment.findMany({
+    where: {
+      studentId: userData.id,
+    },
+  });
+  return result;
+};
 
 export const EnrolmentStudentService = {
   createEnrolmentStudent,
   getAllEnrolmentStudent,
   getAllEnrolmentStudentByCourseId,
+  getAllEnrolmentStudentByStudentId
 };

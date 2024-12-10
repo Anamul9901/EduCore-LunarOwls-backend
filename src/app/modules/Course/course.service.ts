@@ -70,6 +70,8 @@ const getAllCourses = async (params: any, options: any) => {
   return result;
 };
 
+
+
 const getSingleCourse = async (id: string) => {
   const result = await prisma.course.findUniqueOrThrow({
     where: {
