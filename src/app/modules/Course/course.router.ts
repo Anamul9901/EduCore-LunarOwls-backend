@@ -13,6 +13,8 @@ router.post(
 
 router.get("/", CourseController.getAllCourses);
 
+router.get("/byrole",auth(UserRole.admin, UserRole.faculty), CourseController.getAllCourseByRole);
+
 router.get("/:id", CourseController.getSingleCourse);
 
 router.delete(

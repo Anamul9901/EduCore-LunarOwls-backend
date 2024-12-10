@@ -45,6 +45,9 @@ const getAllEnrolmentStudentByCourseId = async (courseId: string) => {
     where: {
       courseId,
     },
+    include: {
+      user: true
+    }
   });
   return result;
 };

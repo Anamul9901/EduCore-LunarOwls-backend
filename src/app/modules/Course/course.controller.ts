@@ -19,6 +19,18 @@ const getAllCourses = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const getAllCourseByRole = catchAsync(async (req: Request, res: Response) => {
+  const user = (req as any).user;
+  const result = await CourseService.getAllCourseByRole(user);
+
+  sendResponse(res, {
+    statusCode: StatusCodes.OK,
+    success: true,
+    message: "Course fetch successfully!",
+    data: result,
+  });
+});
+
 const createCourse = catchAsync(
   async (req: Request & { user?: any }, res: Response) => {
     const user = req.user;
@@ -95,4 +107,5 @@ export const CourseController = {
   deleteCourse,
   compliteCourse,
   updateCourse,
+  getAllCourseByRole,
 };

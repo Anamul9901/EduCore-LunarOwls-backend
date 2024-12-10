@@ -1,4 +1,4 @@
-import { Prisma, UserStatus } from "@prisma/client";
+import { Prisma, UserRole, UserStatus } from "@prisma/client";
 import prisma from "../../../shared/prisma";
 import { paginationHelper } from "../../../helpars/paginationHelper";
 import { courseSearchAbleFields } from "./course.constant";
@@ -70,7 +70,27 @@ const getAllCourses = async (params: any, options: any) => {
   return result;
 };
 
+const getAllCourseByRole = async (user: any) => {
+  const userData = await prisma.user.findUniqueOrThrow({
+    where: {
+      email: user.email,
+      status: UserStatus.active,
+    },
+  });
+  const userId = userData.id;
+  let result = await prisma.course.findMany({
+    include: {
+      courseFaculty: true,
+    },
+  });
 
+  if (userData.role == UserRole.faculty) {
+    result = result.filter((course) =>
+      course.courseFaculty.some((faculty) => faculty.facultyId == userId)
+    );
+  }
+  return result;
+};
 
 const getSingleCourse = async (id: string) => {
   const result = await prisma.course.findUniqueOrThrow({
@@ -166,4 +186,5 @@ export const CourseService = {
   deleteCourse,
   compliteCourse,
   updateCourse,
+  getAllCourseByRole,
 };
