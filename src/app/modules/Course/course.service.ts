@@ -79,6 +79,10 @@ const getAllCourseByRole = async (user: any) => {
   });
   const userId = userData.id;
   let result = await prisma.course.findMany({
+    where: {
+      isActive: true,
+      isDeleted: false,
+    },
     include: {
       courseFaculty: true,
     },
@@ -90,7 +94,7 @@ const getAllCourseByRole = async (user: any) => {
     result = result.filter((course) =>
       course.courseFaculty.some((faculty) => faculty.facultyId == userId)
     );
-    result.push(...moreData)
+    result.push(...moreData);
   }
 
   return result;
