@@ -37,6 +37,7 @@ model Course {
   startDate   String
   endDate     String
   credits     Float
+  photo       String?
 
   creatorId String
   user      User   @relation(fields: [creatorId], references: [id])
