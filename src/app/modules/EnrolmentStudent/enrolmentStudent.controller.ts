@@ -15,7 +15,7 @@ const createEnrolmentStudent = catchAsync(
     sendResponse(res, {
       statusCode: StatusCodes.OK,
       success: true,
-      message: "Enroled student create successfully!",
+      message: "Enroled successfully!",
       data: result,
     });
   }

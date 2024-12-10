@@ -26,6 +26,11 @@ const moduleRoutes = [
     route: CourseFacultyRoutes,
   },
   {
+    path: "/courses",
+    route: CourseRoutes,
+  },
+
+  {
     path: "/enrolment-student",
     route: EnrolmentStudentRoutes,
   },
