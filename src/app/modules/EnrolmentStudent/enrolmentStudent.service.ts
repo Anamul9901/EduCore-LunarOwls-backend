@@ -28,9 +28,16 @@ const createEnrolmentStudent = async (user: any, payload: any) => {
   return result;
 };
 
+const getAllEnrolmentStudent = async () => {
+  const result = await prisma.courseEnrollment.findMany();
+  return result;
+};
+
+
 
 
 
 export const EnrolmentStudentService = {
   createEnrolmentStudent,
+  getAllEnrolmentStudent,
 };
