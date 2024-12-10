@@ -1,0 +1,189 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id               String             @id @default(uuid())
+  name             String
+  email            String             @unique
+  password         String
+  address          String?
+  gender           Gender?
+  contactNumber    String?
+  role             UserRole
+  status           UserStatus         @default(active)
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+  courseEnrollment courseEnrollment[]
+  courseFaculty    courseFaculty[]
+  Course           Course[]
+  courseClass      courseClass[]
+  classData        classData[]
+  attendence       Attendence[]
+  grade            Grade[]
+
+  @@map("users")
+}
+
+model Course {
+  id          String  @id @default(uuid())
+  name        String
+  description String?
+  startDate   String
+  endDate     String
+  credits     Float
+
+  creatorId String
+  user      User   @relation(fields: [creatorId], references: [id])
+
+  isActive         Boolean            @default(true)
+  isDeleted        Boolean            @default(false)
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+  courseEnrollment courseEnrollment[]
+  courseFaculty    courseFaculty[]
+  courseClass      courseClass[]
+  grade            Grade[]
+
+  @@map("courses")
+}
+
+model courseFaculty {
+  facultyId String
+  user      User   @relation(fields: [facultyId], references: [id])
+
+  courseId String
+  couse    Course @relation(fields: [courseId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@id([facultyId, courseId])
+}
+
+model courseEnrollment {
+  studentId String
+  user      User   @relation(fields: [studentId], references: [id])
+
+  courseId String
+  course   Course @relation(fields: [courseId], references: [id])
+
+  isActive  Boolean @default(true)
+  isDeleted Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@id([studentId, courseId])
+  @@map("course_enrollments")
+}
+
+model courseClass {
+  id          String         @id @default(uuid())
+  name        String
+  description String?
+  startTime   String
+  possition   ClassPossition @default(incomming)
+
+  courseId String
+  course   Course @relation(fields: [courseId], references: [id])
+
+  facultyId String
+  user      User   @relation(fields: [facultyId], references: [id])
+
+  isDeleted Boolean @default(false)
+
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
+  classData  classData[]
+  attendence Attendence[]
+
+  @@map("course_classes")
+}
+
+model classData {
+  id            String        @id @default(uuid())
+  name          String
+  classDataType classDataType
+  description   String?
+  classId       String
+  courseClass   courseClass   @relation(fields: [classId], references: [id])
+
+  facultyId String
+  user      User   @relation(fields: [facultyId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Attendence {
+  isPresent Boolean @default(true)
+
+  studentId String
+  user      User   @relation(fields: [studentId], references: [id])
+
+  classId     String
+  courseClass courseClass @relation(fields: [classId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@id([studentId, classId])
+  @@map("attendence")
+}
+
+model Grade {
+  studentId String
+  user      User   @relation(fields: [studentId], references: [id])
+
+  courseId String
+  course   Course @relation(fields: [courseId], references: [id])
+
+  grade     Float?
+  remarks   String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@id([studentId, courseId])
+  @@map("grades")
+}
+
+enum UserRole {
+  admin
+  faculty
+  student
+}
+
+enum UserStatus {
+  active
+  blocked
+  deleted
+}
+
+enum Gender {
+  mail
+  femail
+}
+
+enum PaymentStatus {
+  paid
+  unpaid
+}
+
+enum ClassPossition {
+  incomming
+  ongoing
+  finished
+  canceled
+}
+
+enum classDataType {
+  pdf
+  document
+  links
+}
