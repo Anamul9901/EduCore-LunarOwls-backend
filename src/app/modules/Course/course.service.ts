@@ -83,6 +83,9 @@ const getAllCourseByRole = async (user: any) => {
       isActive: true,
       isDeleted: false,
     },
+    orderBy: {
+      createdAt: "desc",
+    },
     include: {
       courseFaculty: true,
     },
