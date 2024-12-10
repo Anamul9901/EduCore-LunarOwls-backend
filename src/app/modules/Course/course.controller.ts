@@ -83,7 +83,7 @@ const updateCourse = catchAsync(async (req: Request, res: Response) => {
   sendResponse(res, {
     statusCode: StatusCodes.OK,
     success: true,
-    message: "Course deactive successfully!",
+    message: "Course updated successfully!",
     data: result,
   });
 });
