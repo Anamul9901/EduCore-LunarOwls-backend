@@ -6,6 +6,8 @@ import { CourseFacultyRoutes } from "../modules/CourseFaculty/courseFaculty.rout
 import { CourseClassRoutes } from "../modules/CourseClass/courseClass.router";
 import { EnrolmentStudentRoutes } from "../modules/EnrolmentStudent/enrolmentStudent.router";
 import { ClassDataRouter } from "../modules/ClassData/classData.router";
+import { AttendenceRoutes } from "../modules/Attendence/attendence.router";
+import { GradeRoutes } from "../modules/StudentGrade/grade.router";
 
 const router = express.Router();
 
@@ -37,6 +39,14 @@ const moduleRoutes = [
   {
     path: "/class-data",
     route: ClassDataRouter,
+  },
+  {
+    path: "/attendence",
+    route: AttendenceRoutes,
+  },
+  {
+    path: "/grade",
+    route: GradeRoutes,
   },
 ];
 
